@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Test1</string>
+    <string name="cache_permission_denied">Application will not support caching if you do not grant this permission</string>
+    <string name="loading_message">Loading</string>
+    <string name="html_load_failure">The url could not be loaded, please return to the main page and try again</string>
+    <string name="main_title">WebViews</string>
+</resources>
