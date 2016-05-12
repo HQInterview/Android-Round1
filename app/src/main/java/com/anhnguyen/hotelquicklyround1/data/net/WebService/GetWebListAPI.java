@@ -8,10 +8,11 @@ package com.anhnguyen.hotelquicklyround1.data.net.WebService;
 
 import com.anhnguyen.hotelquicklyround1.data.model.Web;
 
-import java.util.List;
+import java.util.Map;
 
-import retrofit.http.GET;
-import retrofit.http.Headers;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
 
 public interface GetWebListAPI {
 
@@ -19,6 +20,6 @@ public interface GetWebListAPI {
         "Content-Type: application/json;charset=UTF-8"
     })
     @GET("/en/1/android/index.json")
-    List<Web> getWebList();
+    Call<Map<String, Web>> getWebList();
 
 }

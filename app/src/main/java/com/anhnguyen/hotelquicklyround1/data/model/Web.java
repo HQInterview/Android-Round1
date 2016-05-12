@@ -8,10 +8,14 @@ package com.anhnguyen.hotelquicklyround1.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import com.anhnguyen.hotelquicklyround1.data.database.AppDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
-public class Web {
+@Table(database = AppDatabase.class)
+public class Web extends BaseModel{
 
     @Column @PrimaryKey
     public String id;
@@ -38,8 +42,11 @@ public class Web {
 
 
     // TODO: convert json string
-    @SerializedName("params")
-    public String []params;
+//    @SerializedName("params")
+//    public String []params;
 
-
+    @Override
+    public String toString() {
+        return "id " + id + " name: " + title + " url:" + url + " cache " + cache + " nameSpace " + namespace + " filePath " + filePath;
+    }
 }

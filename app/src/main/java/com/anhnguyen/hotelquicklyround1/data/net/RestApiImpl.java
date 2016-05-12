@@ -6,9 +6,6 @@
  */
 package com.anhnguyen.hotelquicklyround1.data.net;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import com.anhnguyen.hotelquicklyround1.data.exception.NetworkConnectionException;
 import com.anhnguyen.hotelquicklyround1.data.model.Web;
 import com.anhnguyen.hotelquicklyround1.data.net.WebService.GetWebListAPI;
@@ -17,16 +14,24 @@ import com.anhnguyen.hotelquicklyround1.utils.HLog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.TextUtils;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
 
 public class RestApiImpl implements RestAPI {
+
+    private static final String TAG = "RestApiImpl";
 
     private final Context context;
 
@@ -51,10 +56,10 @@ public class RestApiImpl implements RestAPI {
                 if (isThereInternetConnection()) {
                     try {
                         HLog.d("getWebList", "Begin getWebList");
-                        List<Web> songEntities = getWebListFromAPI();
-                        if (songEntities != null) {
-                            HLog.d("getWebList", "getWebList " + songEntities.size());
-                            subscriber.onNext(songEntities);
+                        List<Web> webs = getWebListFromAPI();
+                        if (webs != null) {
+                            HLog.d("getWebList", "getWebList " + webs.size());
+                            subscriber.onNext(webs);
                             subscriber.onCompleted();
                         } else {
                             HLog.d("getWebList", "getWebList failed");
@@ -72,23 +77,27 @@ public class RestApiImpl implements RestAPI {
         });
     }
 
-    private List<Web> getWebListFromAPI() throws MalformedURLException {
-        Gson gson = new GsonBuilder()
-            .excludeFieldsWithoutExposeAnnotation()
-            .create();
+    private List<Web> getWebListFromAPI() throws IOException {
+//        Gson gson = new GsonBuilder()
+//            .excludeFieldsWithoutExposeAnnotation()
+//            .create();
 
-        final GetWebListAPI getWebListAPI =
-            new RestAdapter.Builder()
-                .setEndpoint(RestAPI.API_BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setConverter(new GsonConverter(gson))
-                .setLog(new RestAdapter.Log() {
-                    @Override
-                    public void log(String message) {
-                        HLog.d("Retrofit", message);
-                    }
-                }).build().create(GetWebListAPI.class);
-        return getWebListAPI.getWebList();
+        Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+        final GetWebListAPI getWebListAPI = retrofit.create(GetWebListAPI.class);
+        Call<Map<String, Web>> webList = getWebListAPI.getWebList();
+        Response<Map<String, Web>> execute = webList.execute();
+        Set<Map.Entry<String, Web>> entries = execute.body().entrySet();
+        for (Map.Entry<String, Web> entry : entries) {
+            Web value = entry.getValue();
+            if(TextUtils.isEmpty(value.title)){
+                value.title = entry.getKey();
+            }
+        }
+        return new ArrayList<>(execute.body().values());
     }
 
     /**
@@ -106,4 +115,26 @@ public class RestApiImpl implements RestAPI {
 
         return isConnected;
     }
+
+//    public class WebListDeserializer implements JsonDeserializer<List<Web>> {
+//
+//        @Override
+//        public List<Web> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+//            List<Web> webs = new ArrayList<>();
+//            JsonObject jsonObject = (JsonObject) json;
+//            for (Map.Entry<String, JsonElement> element : jsonObject.entrySet()){
+//                String key = element.getKey();
+//                JsonObject obj = jsonObject.getAsJsonObject(element.getValue());
+//                Map<String, Integer> settingMaps = new HashMap<>();
+//                for (Map.Entry<String, JsonElement> setting : obj.entrySet()){
+//                    String settingKey = setting.getKey();
+//                    Integer integer = obj.get(settingKey).getAsInt();
+//                    settingMaps.put(settingKey, integer);
+//                }
+//                userSettings.add(key,settingMaps);
+//            }
+//            return userSettings;
+//        }
+//    }
+
 }

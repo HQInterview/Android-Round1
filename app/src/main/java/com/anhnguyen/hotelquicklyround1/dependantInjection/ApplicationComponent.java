@@ -6,7 +6,9 @@
  */
 package com.anhnguyen.hotelquicklyround1.dependantInjection;
 
+import com.anhnguyen.hotelquicklyround1.domain.repository.WebRepository;
 import com.anhnguyen.hotelquicklyround1.presentation.ui.activity.BaseActivity;
+import com.anhnguyen.hotelquicklyround1.presentation.ui.activity.MainActivity;
 
 import android.content.Context;
 
@@ -19,7 +21,9 @@ import dagger.Component;
 public interface ApplicationComponent {
 
     Context context();
+    WebRepository webDataRepository();
 
     void inject(BaseActivity baseActivity);
+    void inject(MainActivity baseActivity);
 
 }

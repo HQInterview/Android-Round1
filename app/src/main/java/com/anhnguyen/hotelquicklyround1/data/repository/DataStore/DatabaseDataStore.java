@@ -27,7 +27,7 @@ public class DatabaseDataStore implements WebDataStore {
 
     @Override
     public Observable<List<Web>> getWebList() {
-        return null;
+        return databaseAPI.getWebList();
     }
 
 

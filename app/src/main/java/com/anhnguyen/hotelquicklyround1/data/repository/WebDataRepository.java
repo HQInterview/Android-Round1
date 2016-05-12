@@ -19,6 +19,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;
@@ -30,6 +31,7 @@ public class WebDataRepository implements WebRepository {
     private CloudWebDataStore cloudDataStore;
     private DatabaseDataStore databaseDataStore;
 
+    @Inject
     public WebDataRepository(Context context){
         this.context = context;
         RestAPI restApi = new RestApiImpl(this.context);
@@ -43,6 +45,7 @@ public class WebDataRepository implements WebRepository {
         final Observable<List<Web>> diskObservable = databaseDataStore.getWebList();
         final Observable<List<Web>> cloudObservable = cloudDataStore.getWebList();
 
+        // Take source from database if has else get from cloud
         return Observable.concat(diskObservable, cloudObservable).first(webs -> webs != null && webs.size() > 0);
     }
 

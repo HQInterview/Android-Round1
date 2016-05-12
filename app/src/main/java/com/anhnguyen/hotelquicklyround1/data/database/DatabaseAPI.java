@@ -16,8 +16,6 @@ public interface DatabaseAPI {
 
     Observable<List<Web>> getWebList();
 
-    Observable<List<Web>> saveWebList(List<Web> webs);
-
-
+    boolean saveWebList(List<Web> webs);
 
 }

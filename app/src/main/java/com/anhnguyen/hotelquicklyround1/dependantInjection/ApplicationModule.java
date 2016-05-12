@@ -7,13 +7,17 @@
 package com.anhnguyen.hotelquicklyround1.dependantInjection;
 
 import com.anhnguyen.hotelquicklyround1.App;
+import com.anhnguyen.hotelquicklyround1.data.repository.WebDataRepository;
+import com.anhnguyen.hotelquicklyround1.domain.repository.WebRepository;
 
 import android.content.Context;
 
 import javax.inject.Singleton;
 
+import dagger.Module;
 import dagger.Provides;
 
+@Module
 public class ApplicationModule {
 
     private final App app;
@@ -28,5 +32,10 @@ public class ApplicationModule {
         return this.app.getApplicationContext();
     }
 
+    @Provides
+    @Singleton
+    WebRepository provideWebRepository(WebDataRepository webDataRepository){
+        return  webDataRepository;
+    }
 
 }

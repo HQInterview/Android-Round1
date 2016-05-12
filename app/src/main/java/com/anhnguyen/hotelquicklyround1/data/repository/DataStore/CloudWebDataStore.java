@@ -11,8 +11,6 @@ import com.anhnguyen.hotelquicklyround1.data.model.Web;
 import com.anhnguyen.hotelquicklyround1.data.net.RestAPI;
 import com.anhnguyen.hotelquicklyround1.utils.HLog;
 
-import android.util.Log;
-
 import java.util.List;
 
 import rx.Observable;
