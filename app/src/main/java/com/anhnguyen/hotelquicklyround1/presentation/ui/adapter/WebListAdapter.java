@@ -10,12 +10,14 @@ import com.anhnguyen.hotelquicklyround1.R;
 import com.anhnguyen.hotelquicklyround1.data.model.Web;
 import com.anhnguyen.hotelquicklyround1.presentation.ui.activity.WebViewActivity;
 import com.anhnguyen.hotelquicklyround1.utils.HLog;
+import com.anhnguyen.hotelquicklyround1.utils.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +81,11 @@ public class WebListAdapter extends RecyclerView.Adapter<WebListAdapter.ViewHold
                 activity.startActivity(intent);
             }
         });
+
+        if(web.cache && TextUtils.isEmpty(web.cacheData)) {
+            Utils.downloadAndSaveWebPage(Utils.fillUrl(web.url), 0, web);
+            HLog.d(TAG, "downloadAndSaveWebPage url " + web.url);
+        }
     }
 
     @Override

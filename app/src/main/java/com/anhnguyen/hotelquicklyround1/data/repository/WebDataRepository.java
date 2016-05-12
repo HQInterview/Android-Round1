@@ -47,6 +47,7 @@ public class WebDataRepository implements WebRepository {
 
         // Take source from database if has else get from cloud
         return Observable.concat(diskObservable, cloudObservable).first(webs -> webs != null && webs.size() > 0);
+
     }
 
 }

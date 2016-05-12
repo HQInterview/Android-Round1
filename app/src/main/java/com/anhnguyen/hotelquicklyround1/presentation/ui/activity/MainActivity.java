@@ -42,6 +42,10 @@ public class MainActivity extends BaseActivity implements MainView{
     public RecyclerView recyclerView;
     @Bind(R.id.progress_wheel)
     ContentLoadingProgressBar progressBar;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +57,13 @@ public class MainActivity extends BaseActivity implements MainView{
 
         mainViewPresenter.setMainView(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                fab.setEnabled(false);
+                mainViewPresenter.doLoadWebList();
             }
         });
 
@@ -145,7 +148,14 @@ public class MainActivity extends BaseActivity implements MainView{
 
     @Override
     public void hideLoading() {
-        progressBar.hide();
+        // Delay a bit to indicate data load from web server
+        if(progressBar != null) progressBar.getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.hide();
+                fab.setEnabled(true);
+            }
+        }, 300);
     }
 
     @Override

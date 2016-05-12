@@ -12,6 +12,7 @@ import com.anhnguyen.hotelquicklyround1.data.database.AppDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 @Table(database = AppDatabase.class)
@@ -41,7 +42,11 @@ public class Web extends BaseModel{
     public String pageTitle;
 
     @Column
+    @Unique
     public String title; // use the key from the json object
+
+    @Column
+    public String cacheData;
 
     // TODO: convert json string
 //    @SerializedName("params")
