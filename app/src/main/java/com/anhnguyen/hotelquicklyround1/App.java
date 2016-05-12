@@ -6,36 +6,21 @@
  */
 package com.anhnguyen.hotelquicklyround1;
 
+import com.anhnguyen.hotelquicklyround1.dependantInjection.ApplicationComponent;
+
 import android.app.Application;
 
 public class App extends Application {
 
-    // ===========================================================
-    // Constants
-    // ===========================================================
+    private ApplicationComponent applicationComponent;
 
-    // ===========================================================
-    // Fields
-    // ===========================================================
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
-    // ===========================================================
-    // Constructors
-    // ===========================================================
+    }
 
-    // ===========================================================
-    // Methods from SuperClass/Interfaces
-    // ===========================================================
-
-    // ===========================================================
-    // Getter & Setter
-    // ===========================================================
-
-    // ===========================================================
-    // Methods
-    // ===========================================================
-
-    // ===========================================================
-    // Inner class
-    // ===========================================================
-
+    public ApplicationComponent getApplicationComponent() {
+        return applicationComponent;
+    }
 }
