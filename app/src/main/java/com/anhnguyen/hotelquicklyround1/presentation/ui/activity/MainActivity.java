@@ -1,4 +1,6 @@
-package com.anhnguyen.hotelquicklyround1;
+package com.anhnguyen.hotelquicklyround1.presentation.ui.activity;
+
+import com.anhnguyen.hotelquicklyround1.R;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
