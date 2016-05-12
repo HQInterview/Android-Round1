@@ -43,7 +43,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     void showError(View view, String error) {
-        Snackbar.make(view, error, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(view, error, Snackbar.LENGTH_SHORT).show();
     }
 
 }

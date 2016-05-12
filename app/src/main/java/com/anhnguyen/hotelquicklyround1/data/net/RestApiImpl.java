@@ -14,7 +14,6 @@ import com.anhnguyen.hotelquicklyround1.utils.HLog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.text.TextUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -93,9 +92,8 @@ public class RestApiImpl implements RestAPI {
         Set<Map.Entry<String, Web>> entries = execute.body().entrySet();
         for (Map.Entry<String, Web> entry : entries) {
             Web value = entry.getValue();
-            if(TextUtils.isEmpty(value.title)){
-                value.title = entry.getKey();
-            }
+            value.title = entry.getKey(); // save key as title
+
         }
         return new ArrayList<>(execute.body().values());
     }

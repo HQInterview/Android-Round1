@@ -38,8 +38,10 @@ public class Web extends BaseModel{
 
     @Column
     @SerializedName("pageTitle")
-    public String title;
+    public String pageTitle;
 
+    @Column
+    public String title; // use the key from the json object
 
     // TODO: convert json string
 //    @SerializedName("params")
@@ -47,6 +49,6 @@ public class Web extends BaseModel{
 
     @Override
     public String toString() {
-        return "id " + id + " name: " + title + " url:" + url + " cache " + cache + " nameSpace " + namespace + " filePath " + filePath;
+        return "id " + id + " name: " + pageTitle + " url:" + url + " cache " + cache + " nameSpace " + namespace + " filePath " + filePath;
     }
 }

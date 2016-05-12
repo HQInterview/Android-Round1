@@ -10,6 +10,7 @@ import com.anhnguyen.hotelquicklyround1.utils.HLog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -39,6 +40,8 @@ public class MainActivity extends BaseActivity implements MainView{
     ViewGroup rootContainer;
     @Bind(R.id.rcv)
     public RecyclerView recyclerView;
+    @Bind(R.id.progress_wheel)
+    ContentLoadingProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,24 @@ public class MainActivity extends BaseActivity implements MainView{
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainViewPresenter.destroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mainViewPresenter.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainViewPresenter.resume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -109,7 +130,7 @@ public class MainActivity extends BaseActivity implements MainView{
         recyclerView.setHasFixedSize(true);
         recyclerView.setClipToPadding(false);
 
-        WebListAdapter adapter = new WebListAdapter();
+        WebListAdapter adapter = new WebListAdapter(this);
         adapter.setItems(webs);
 
         SlideInBottomAnimationAdapter slideInBottomAnimationAdapter = new SlideInBottomAnimationAdapter(adapter);
@@ -119,12 +140,12 @@ public class MainActivity extends BaseActivity implements MainView{
 
     @Override
     public void showLoading() {
-
+        progressBar.show();
     }
 
     @Override
     public void hideLoading() {
-
+        progressBar.hide();
     }
 
     @Override
@@ -139,7 +160,7 @@ public class MainActivity extends BaseActivity implements MainView{
 
     @Override
     public void showError(String message) {
-
+        showError(rootContainer, message);
     }
 
     @Override

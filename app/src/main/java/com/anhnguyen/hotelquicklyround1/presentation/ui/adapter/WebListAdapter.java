@@ -8,9 +8,13 @@ package com.anhnguyen.hotelquicklyround1.presentation.ui.adapter;
 
 import com.anhnguyen.hotelquicklyround1.R;
 import com.anhnguyen.hotelquicklyround1.data.model.Web;
+import com.anhnguyen.hotelquicklyround1.presentation.ui.activity.WebViewActivity;
 import com.anhnguyen.hotelquicklyround1.utils.HLog;
 
-import android.support.design.widget.Snackbar;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,14 +40,15 @@ public class WebListAdapter extends RecyclerView.Adapter<WebListAdapter.ViewHold
     // Fields
     // ===========================================================
 
+    Activity activity;
     List<Web> items = new ArrayList<>();
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
-    public WebListAdapter(){
-
+    public WebListAdapter(AppCompatActivity activity){
+        this.activity = activity;
     }
 
     // ===========================================================
@@ -58,13 +63,20 @@ public class WebListAdapter extends RecyclerView.Adapter<WebListAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Web web = items.get(position);
+        final Web web = items.get(position);
         holder.textView.setText(web.title);
         HLog.d(TAG, "item name " + web.title + " web " + web);
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Open webview " + items.get(position).url, Snackbar.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity, WebViewActivity.class);
+                Bundle b = new Bundle();
+                b.putString("id", web.id);
+                b.putString("title", web.title);
+                b.putString("url", web.url);
+                b.putBoolean("cache", web.cache);
+                intent.putExtras(b); //Put your id to your next Intent
+                activity.startActivity(intent);
             }
         });
     }

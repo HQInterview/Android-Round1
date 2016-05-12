@@ -53,17 +53,21 @@ public class MainViewPresenter implements Presenter {
 
     public void doLoadWebList() {
         HLog.d(TAG, "doLoadWebList");
+        mainView.showLoading();
         subscription = loadWebListUseCase.buildUseCaseObservable()
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Observer<List<Web>>() {
                 @Override
                 public void onCompleted() {
+                    mainView.hideLoading();
                     HLog.d(TAG, "onCompleted");
                 }
 
                 @Override
                 public void onError(Throwable e) {
+                    mainView.hideLoading();
+                    mainView.showError(e.getMessage());
                     HLog.d(TAG, "onError " + e.getMessage());
                     //showErrorMessage(new DefaultErrorBundle(e));
                 }

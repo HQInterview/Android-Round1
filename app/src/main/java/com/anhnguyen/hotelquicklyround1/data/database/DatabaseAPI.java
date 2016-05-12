@@ -18,4 +18,5 @@ public interface DatabaseAPI {
 
     boolean saveWebList(List<Web> webs);
 
+
 }
