@@ -128,6 +128,13 @@ public class WebViewActivity extends BaseActivity{
     }
 
     private class MyWebClient extends WebViewClient {
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return super.shouldOverrideUrlLoading(view, url);
+
+        }
+
         @Override
         public void onPageFinished(WebView view, String url){
             HLog.d(TAG, "Web page loaded: " + url);
